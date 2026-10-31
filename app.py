@@ -1,3 +1,4 @@
+# KR2: Esina
 import os
 import socket
 
