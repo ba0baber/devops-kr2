@@ -1,9 +1,9 @@
-FROM python:latest
-
+FROM python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+RUN useradd --system --no-create-home app
 WORKDIR /app
-
-COPY . .
-RUN pip install -r requirements.txt
-
-EXPOSE 8000
-CMD gunicorn --bind 127.0.0.1:8000 app:app
+COPY --chmod=0644 requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY --chmod=0644 app.py .
+USER app
+EXPOSE 8002
+CMD ["gunicorn", "--bind", "0.0.0.0:8002", "--access-logfile", "-", "app:app"]
